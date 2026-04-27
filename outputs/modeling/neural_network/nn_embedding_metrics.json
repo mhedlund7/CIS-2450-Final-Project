@@ -1,0 +1,22 @@
+{
+  "model_type": "MiniLM sentence embeddings + text stats + PyTorch MLP",
+  "embedding_model_name": "sentence-transformers/all-MiniLM-L6-v2",
+  "normalize_embeddings": true,
+  "best_epoch": 9,
+  "best_val_loss": 0.1491982734097375,
+  "validation_loss": 0.1491982734097375,
+  "validation_accuracy": 0.9477777777777778,
+  "test_loss": 0.1480088874643711,
+  "test_accuracy": 0.946623408368703,
+  "classes": [
+    "hackernews",
+    "reddit",
+    "twitter"
+  ],
+  "embedding_dim": 384,
+  "num_text_stat_features": 10,
+  "input_dim": 394,
+  "batch_size": 512,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001
+}

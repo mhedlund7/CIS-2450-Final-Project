@@ -23,3 +23,6 @@ data/in_process/
 
 # Hugging Face / large local downloads
 *.duckdb
+# Model artifacts / large caches
+outputs/modeling/neural_network/embedding_cache/
+*.npy

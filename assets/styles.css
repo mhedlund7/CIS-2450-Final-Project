@@ -1,0 +1,159 @@
+/* Dashboard styling*/
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: #f5f7fa;
+  color: #1f2937;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header-card {
+  background: #4f46e5;
+  border-radius: 14px;
+  color: #fff;
+  text-align: center;
+  padding: 28px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 24px rgba(67, 56, 202, 0.28);
+}
+
+.header-title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 750;
+}
+
+.header-subtitle {
+  margin: 10px 0 0;
+  opacity: 0.95;
+  font-size: 16px;
+}
+
+.section-title {
+  margin: 22px 0 12px;
+  color: #1f2a44;
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.section-title::-webkit-details-marker {
+  display: none;
+}
+
+.section-details {
+  margin-bottom: 14px;
+}
+
+.section-details > .section-title::before {
+  content: "▸ ";
+  color: #4f46e5;
+}
+
+.section-details[open] > .section-title::before {
+  content: "▾ ";
+}
+
+.overview-section {
+  margin-bottom: 14px;
+}
+
+.overview-line {
+  margin: 8px 0;
+  line-height: 1.45;
+}
+
+.insight-card {
+  border-left: 4px solid #4f46e5;
+}
+
+.insight-title {
+  margin-bottom: 8px;
+}
+
+.insight-list {
+  margin-top: 0;
+}
+
+.metrics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.metric-card,
+.card {
+  background: #fff;
+  border: 1px solid #e6e8ef;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card {
+  flex: 1;
+  min-width: 280px;
+  padding: 16px;
+}
+
+.metric-card h3 {
+  color: #243b7b;
+  font-size: 18px;
+}
+
+.card {
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.eda-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #e6e8ef;
+}
+
+.notes-card {
+  padding: 16px 18px;
+}
+
+.notes-title {
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.notes-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.notes-card li {
+  margin-bottom: 8px;
+}
+
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner th {
+  background: #eff3ff;
+}
+
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td {
+  background: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .header-title {
+    font-size: 28px;
+  }
+}

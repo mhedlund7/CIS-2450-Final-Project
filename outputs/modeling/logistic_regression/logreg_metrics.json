@@ -1,0 +1,45 @@
+{
+  "model": "Logistic Regression (TF-IDF + text stats)",
+  "validation_accuracy": 0.8834666666666666,
+  "test_accuracy": 0.8843581253749917,
+  "macro_f1": 0.8855600738775687,
+  "weighted_f1": 0.8855611092981275,
+  "classes": [
+    "hackernews",
+    "reddit",
+    "twitter"
+  ],
+  "classification_report": {
+    "hackernews": {
+      "precision": 0.8792072556264696,
+      "recall": 0.8724666666666666,
+      "f1-score": 0.8758239919692153,
+      "support": 15000.0
+    },
+    "reddit": {
+      "precision": 0.8130687022900763,
+      "recall": 0.8876,
+      "f1-score": 0.8487011952191235,
+      "support": 15000.0
+    },
+    "twitter": {
+      "precision": 0.9748926570118623,
+      "recall": 0.8930071328578095,
+      "f1-score": 0.9321550344443671,
+      "support": 15001.0
+    },
+    "accuracy": 0.8843581253749917,
+    "macro avg": {
+      "precision": 0.8890562049761361,
+      "recall": 0.8843579331748254,
+      "f1-score": 0.8855600738775687,
+      "support": 45001.0
+    },
+    "weighted avg": {
+      "precision": 0.8890581124104605,
+      "recall": 0.8843581253749917,
+      "f1-score": 0.8855611092981275,
+      "support": 45001.0
+    }
+  }
+}

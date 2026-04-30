@@ -1,9 +1,32 @@
 {
   "model": "Logistic Regression (TF-IDF + text stats)",
-  "validation_accuracy": 0.8803475787274707,
-  "test_accuracy": 0.8821503177919019,
-  "macro_f1": 0.8832093588566372,
-  "weighted_f1": 0.8832098906837301,
+  "tuning_results": [
+    {
+      "C": 0.5,
+      "val_accuracy": 0.8438784807876081,
+      "val_macro_f1": 0.8454847111009638,
+      "iterations": 300
+    },
+    {
+      "C": 1.0,
+      "val_accuracy": 0.8438784807876081,
+      "val_macro_f1": 0.8454824317376551,
+      "iterations": 300
+    },
+    {
+      "C": 2.0,
+      "val_accuracy": 0.843967375602818,
+      "val_macro_f1": 0.8455715148870535,
+      "iterations": 300
+    }
+  ],
+  "best_config": {
+    "C": 2.0
+  },
+  "validation_accuracy": 0.8763028646354202,
+  "test_accuracy": 0.8788835059335971,
+  "macro_f1": 0.8800108619954073,
+  "weighted_f1": 0.8800114144933098,
   "classes": [
     "hackernews",
     "reddit",
@@ -11,34 +34,34 @@
   ],
   "classification_report": {
     "hackernews": {
-      "precision": 0.8668162618796198,
-      "recall": 0.8757167622349646,
-      "f1-score": 0.8712437810945274,
+      "precision": 0.8634832573806221,
+      "recall": 0.8717162288305107,
+      "f1-score": 0.8675802116858555,
       "support": 14998.0
     },
     "reddit": {
-      "precision": 0.8202618453865337,
-      "recall": 0.8771333333333333,
-      "f1-score": 0.8477448453608247,
+      "precision": 0.8150335737378761,
+      "recall": 0.8739333333333333,
+      "f1-score": 0.8434564406125338,
       "support": 15000.0
     },
     "twitter": {
-      "precision": 0.9708822251195133,
-      "recall": 0.8936,
-      "f1-score": 0.9306394501145595,
+      "precision": 0.9703768242213026,
+      "recall": 0.891,
+      "f1-score": 0.9289959336878324,
       "support": 15000.0
     },
-    "accuracy": 0.8821503177919019,
+    "accuracy": 0.8788835059335971,
     "macro avg": {
-      "precision": 0.8859867774618889,
-      "recall": 0.8821500318560993,
-      "f1-score": 0.8832093588566372,
+      "precision": 0.8829645517799336,
+      "recall": 0.878883187387948,
+      "f1-score": 0.8800108619954073,
       "support": 44998.0
     },
     "weighted avg": {
-      "precision": 0.8859876295226731,
-      "recall": 0.8821503177919019,
-      "f1-score": 0.8832098906837301,
+      "precision": 0.8829654176537235,
+      "recall": 0.8788835059335971,
+      "f1-score": 0.8800114144933098,
       "support": 44998.0
     }
   }

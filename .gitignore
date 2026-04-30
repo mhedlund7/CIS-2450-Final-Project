@@ -26,3 +26,6 @@ data/in_process/
 # Model artifacts / large caches
 outputs/modeling/neural_network/embedding_cache/
 *.npy
+
+# Coding assistant artifacts
+.plans/

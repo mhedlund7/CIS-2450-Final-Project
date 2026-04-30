@@ -1,9 +1,9 @@
 {
   "model": "Logistic Regression (TF-IDF + text stats)",
-  "validation_accuracy": 0.8834666666666666,
-  "test_accuracy": 0.8843581253749917,
-  "macro_f1": 0.8855600738775687,
-  "weighted_f1": 0.8855611092981275,
+  "validation_accuracy": 0.8803475787274707,
+  "test_accuracy": 0.8821503177919019,
+  "macro_f1": 0.8832093588566372,
+  "weighted_f1": 0.8832098906837301,
   "classes": [
     "hackernews",
     "reddit",
@@ -11,35 +11,35 @@
   ],
   "classification_report": {
     "hackernews": {
-      "precision": 0.8792072556264696,
-      "recall": 0.8724666666666666,
-      "f1-score": 0.8758239919692153,
-      "support": 15000.0
+      "precision": 0.8668162618796198,
+      "recall": 0.8757167622349646,
+      "f1-score": 0.8712437810945274,
+      "support": 14998.0
     },
     "reddit": {
-      "precision": 0.8130687022900763,
-      "recall": 0.8876,
-      "f1-score": 0.8487011952191235,
+      "precision": 0.8202618453865337,
+      "recall": 0.8771333333333333,
+      "f1-score": 0.8477448453608247,
       "support": 15000.0
     },
     "twitter": {
-      "precision": 0.9748926570118623,
-      "recall": 0.8930071328578095,
-      "f1-score": 0.9321550344443671,
-      "support": 15001.0
+      "precision": 0.9708822251195133,
+      "recall": 0.8936,
+      "f1-score": 0.9306394501145595,
+      "support": 15000.0
     },
-    "accuracy": 0.8843581253749917,
+    "accuracy": 0.8821503177919019,
     "macro avg": {
-      "precision": 0.8890562049761361,
-      "recall": 0.8843579331748254,
-      "f1-score": 0.8855600738775687,
-      "support": 45001.0
+      "precision": 0.8859867774618889,
+      "recall": 0.8821500318560993,
+      "f1-score": 0.8832093588566372,
+      "support": 44998.0
     },
     "weighted avg": {
-      "precision": 0.8890581124104605,
-      "recall": 0.8843581253749917,
-      "f1-score": 0.8855611092981275,
-      "support": 45001.0
+      "precision": 0.8859876295226731,
+      "recall": 0.8821503177919019,
+      "f1-score": 0.8832098906837301,
+      "support": 44998.0
     }
   }
 }

@@ -8,6 +8,7 @@ Run with:
 from __future__ import annotations
 
 import json
+import logging
 import re
 from pathlib import Path
 
@@ -230,7 +231,7 @@ def build_model_metrics() -> tuple[pd.DataFrame, pd.DataFrame]:
             "validation_accuracy": nn.get("validation_accuracy", 0.940951618996822),
             "test_accuracy": nn.get("test_accuracy", 0.9414862882794791),
             "macro_f1": 0.94,
-            "interpretation": "Best final model: compact MLP with dropout and early stopping captured both semantic and style signals.",
+            "interpretation": "Best final model: compact neural network with dropout and early stopping captured both semantic and style signals.",
         },
     ]
 
@@ -641,13 +642,52 @@ def overview_tab() -> html.Div:
                     html.H2("Overview"),
                     html.P(
                         "Our project asks whether a post's language and style reveal which platform it came from. "
-                        "The notebooks build a balanced dataset and intentionally exclude IDs, authors, dates, and platform-specific metadata from modeling, focusing only on text and text-derived features",
+                        "The notebooks build a balanced dataset and intentionally exclude IDs, authors, dates, and platform-specific metadata from modeling, focusing only on text and text-derived features.",
                     ),
                     html.Div(
                         [
                             html.Div([html.H3("Objective"), html.P("Classify posts as Hacker News, Reddit, or Twitter using text-derived signals.")]),
                             html.Div([html.H3("EDA insight"), html.P("Length, questions, hashtags, mentions, URLs, and word patterns differ sharply across platforms.")]),
                             html.Div([html.H3("Modeling insight"), html.P("Embeddings improve accuracy, and the neural network performs best while the logistic baseline remains the most explainable.")]),
+                        ],
+                        className="three-col",
+                    ),
+                ],
+                className="section-block",
+            ),
+            html.Section(
+                [
+                    html.H2("Data Choices"),
+                    html.P(
+                        "The source review and EDA shaped the dataset pipeline before any model was trained.",
+                        className="section-intro",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.H3("Text-only modeling"),
+                                    html.P(
+                                        "The platforms expose different metadata, so likes, communities, parent IDs, dates, authors, and platform-specific fields are excluded from the model inputs."
+                                    ),
+                                ]
+                            ),
+                            html.Div(
+                                [
+                                    html.H3("Balanced dataset"),
+                                    html.P(
+                                        "The final dataset keeps 100,000 posts per platform, which makes accuracy more meaningful and prevents one class from dominating the result."
+                                    ),
+                                ]
+                            ),
+                            html.Div(
+                                [
+                                    html.H3("Leakage control"),
+                                    html.P(
+                                        "Time coverage and source formatting differ by platform, so dates are used for auditing but not modeling, and HTML-like markup is stripped before splitting."
+                                    ),
+                                ]
+                            ),
                         ],
                         className="three-col",
                     ),
@@ -666,7 +706,7 @@ def eda_tab() -> html.Div:
                 [
                     html.H2("EDA Explorer"),
                     html.P(
-                        "Use the controls to adjust the EDA graphs.",
+                        "Use the controls to see how the same text-derived patterns from the notebooks change by platform and length range.",
                         className="section-intro",
                     ),
                     html.Div(
@@ -713,6 +753,10 @@ def eda_tab() -> html.Div:
                         "Time features were inspected for coverage but excluded from models to avoid learning collection artifacts.",
                         className="callout",
                     ),
+                    html.Div(
+                        "The engineered text statistics are informative, but the classes still overlap. That is why the project combines simple style features with richer TF-IDF and MiniLM embedding representations instead of relying on one chart or one feature.",
+                        className="callout",
+                    ),
                 ],
                 className="section-block",
             )
@@ -727,8 +771,37 @@ def modeling_tab() -> html.Div:
                 [
                     html.H2("Modeling Results"),
                     html.P(
-                        "The dashboard compares a transparent TF-IDF logistic baseline, an embedding-based XGBoost model, and the final MiniLM plus MLP neural network.",
+                        "The dashboard compares a transparent TF-IDF logistic baseline, an embedding-based XGBoost model, and the final MiniLM plus neural network.",
                         className="section-intro",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.H3("Logistic Regression"),
+                                    html.P(
+                                        "A strong baseline for sparse TF-IDF text features. Its main value is interpretability because coefficients map back to readable words and text statistics."
+                                    ),
+                                ]
+                            ),
+                            html.Div(
+                                [
+                                    html.H3("XGBoost"),
+                                    html.P(
+                                        "Uses MiniLM sentence embeddings so the model can learn nonlinear boundaries in semantic space instead of only counting explicit words."
+                                    ),
+                                ]
+                            ),
+                            html.Div(
+                                [
+                                    html.H3("Neural Network"),
+                                    html.P(
+                                        "Combines MiniLM embeddings with engineered text statistics in a small neural network, using dropout, batch normalization, and early stopping to reduce overfitting."
+                                    ),
+                                ]
+                            ),
+                        ],
+                        className="three-col model-rationale-grid",
                     ),
                     html.Div(
                         [
@@ -780,12 +853,15 @@ def modeling_tab() -> html.Div:
                         "For our other models, MiniLM embeddings added semantic signal, and the neural network ended up reaching the best test accuracy after early stopping at epoch 8.",
                         className="callout",
                     ),
+                    html.Div(
+                        "Each model uses a validation-based tuning pass before final test evaluation. Macro F1 is tracked alongside accuracy so performance is judged across all three platform classes, not just by one headline number.",
+                        className="callout",
+                    ),
                 ],
                 className="section-block",
             )
         ]
     )
-
 
 def features_tab() -> html.Div:
     return html.Div(
@@ -796,6 +872,10 @@ def features_tab() -> html.Div:
                     html.P(
                         "Switch between direct Logistic Regression coefficients and XGBoost's semantic embedding dimensions. Both views help connect the models' signals back to real posts from our dataset.",
                         className="section-intro",
+                    ),
+                    html.Div(
+                        "For Logistic Regression, a feature is a readable word or text statistic with a positive coefficient for a platform. For XGBoost, each MiniLM dimension is a latent semantic coordinate, so the dashboard interprets it through high-value and low-value example posts rather than pretending the dimension has one exact label.",
+                        className="callout",
                     ),
                     html.Div(
                         [
@@ -860,5 +940,6 @@ def features_tab() -> html.Div:
     )
 
 if __name__ == "__main__":
+    logging.getLogger("werkzeug").setLevel(logging.ERROR)
     app = build_app()
     app.run(debug=False, port=8050)

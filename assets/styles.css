@@ -156,6 +156,10 @@ p {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.model-rationale-grid {
+  margin-bottom: 18px;
+}
+
 .four-col {
   grid-template-columns: repeat(4, 1fr);
 }

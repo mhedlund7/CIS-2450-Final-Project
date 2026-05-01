@@ -1160,4 +1160,4 @@ def features_tab() -> html.Div:
 if __name__ == "__main__":
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
     app = build_app()
-    app.run(debug=False, port=8040)
+    app.run(debug=False, port=8050)

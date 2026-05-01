@@ -23,6 +23,7 @@
   "best_config": {
     "C": 2.0
   },
+  "top_features_path": "/home/milo/Work/school/CIS_2450/CIS-2450-Final-Project/outputs/modeling/logistic_regression/logreg_top_features.csv",
   "validation_accuracy": 0.8763028646354202,
   "test_accuracy": 0.8788835059335971,
   "macro_f1": 0.8800108619954073,

@@ -1,0 +1,83 @@
+{
+  "model": "XGBoost (MiniLM embeddings)",
+  "tuning_results": [
+    {
+      "n_estimators": 400,
+      "max_depth": 6,
+      "learning_rate": 0.1,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "val_accuracy": 0.8897704291397204,
+      "val_macro_f1": 0.8897571019309934
+    },
+    {
+      "n_estimators": 400,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "val_accuracy": 0.8793475120563593,
+      "val_macro_f1": 0.8793088123538121
+    },
+    {
+      "n_estimators": 400,
+      "max_depth": 6,
+      "learning_rate": 0.03,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "val_accuracy": 0.8660577371824788,
+      "val_macro_f1": 0.865973876177911
+    }
+  ],
+  "best_config": {
+    "n_estimators": 400,
+    "max_depth": 6,
+    "learning_rate": 0.1,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8
+  },
+  "validation_accuracy": 0.8897704291397204,
+  "test_accuracy": 0.891684074847771,
+  "macro_f1": 0.8916222041254639,
+  "weighted_f1": 0.8916220214876927,
+  "classes": [
+    "hackernews",
+    "reddit",
+    "twitter"
+  ],
+  "classification_report": {
+    "hackernews": {
+      "precision": 0.871523178807947,
+      "recall": 0.9213228430457394,
+      "f1-score": 0.8957313713415227,
+      "support": 14998.0
+    },
+    "reddit": {
+      "precision": 0.8949357520786092,
+      "recall": 0.8682666666666666,
+      "f1-score": 0.8813995195073259,
+      "support": 15000.0
+    },
+    "twitter": {
+      "precision": 0.9103495544893763,
+      "recall": 0.8854666666666666,
+      "f1-score": 0.8977357215275431,
+      "support": 15000.0
+    },
+    "accuracy": 0.891684074847771,
+    "macro avg": {
+      "precision": 0.8922694951253108,
+      "recall": 0.8916853921263576,
+      "f1-score": 0.8916222041254639,
+      "support": 44998.0
+    },
+    "weighted avg": {
+      "precision": 0.892270417224796,
+      "recall": 0.891684074847771,
+      "f1-score": 0.8916220214876927,
+      "support": 44998.0
+    }
+  },
+  "top_dimensions_path": "/home/milo/Work/school/CIS_2450/CIS-2450-Final-Project/outputs/modeling/xgboost_top_dimensions.csv",
+  "top_dimension_examples_path": "/home/milo/Work/school/CIS_2450/CIS-2450-Final-Project/outputs/modeling/xgboost_top_dimension_examples.csv"
+}

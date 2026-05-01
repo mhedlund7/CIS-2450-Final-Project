@@ -24,6 +24,10 @@ EDA_OUTPUT_DIR = PROJECT_ROOT / "outputs" / "eda"
 MODEL_OUTPUT_DIR = PROJECT_ROOT / "outputs" / "modeling"
 LOGREG_OUTPUT_DIR = MODEL_OUTPUT_DIR / "logistic_regression"
 NN_OUTPUT_DIR = MODEL_OUTPUT_DIR / "neural_network"
+XGB_METRICS_PATH = MODEL_OUTPUT_DIR / "xgboost_embedding_metrics.json"
+XGB_TOP_DIMENSIONS_PATH = MODEL_OUTPUT_DIR / "xgboost_top_dimensions.csv"
+XGB_DIMENSION_EXAMPLES_PATH = MODEL_OUTPUT_DIR / "xgboost_top_dimension_examples.csv"
+LOGREG_TOP_FEATURES_PATH = LOGREG_OUTPUT_DIR / "logreg_top_features.csv"
 
 PLATFORMS = ["hackernews", "reddit", "twitter"]
 PLATFORM_LABELS = {
@@ -50,56 +54,52 @@ STYLE_METRICS = {
 
 # Setup our model outputs from the notebooks for reference in the dashboard.
 
-LOGREG_TOP_FEATURES = {
-    "hackernews": {
-        "com": 6.144383,
-        "org": 5.272830,
-        "hn": 3.612377,
-        "article": 3.476421,
-        "www": 3.047259,
-        "github": 3.036329,
-        "probably": 3.008279,
-        "point": 2.873561,
-        "google": 2.724110,
-        "people": 2.644968,
-        "yeah": 2.588915,
-        "doesn": 2.587972,
-        "archive": 2.558753,
-        "interesting": 2.521736,
-        "example": 2.504507,
-    },
-    "reddit": {
-        "telegram": 3.307033,
-        "looking": 2.966019,
-        "help": 2.583684,
-        "overview": 2.576608,
-        "com": 2.486916,
-        "guys": 2.403684,
-        "girl": 2.349348,
-        "wondering": 2.327829,
-        "sub": 2.150148,
-        "dm": 2.105480,
-        "poll": 2.096680,
-        "num_words": 2.075734,
-        "reddit": 2.075265,
-        "wanna": 2.047578,
-        "cum": 2.042617,
-    },
-    "twitter": {
-        "https": 15.578726,
-        "http": 6.958368,
-        "num_mentions": 2.806335,
-        "00": 2.341868,
-        "la": 2.250571,
-        "que": 2.088077,
-        "el": 1.570931,
-        "today": 1.518238,
-        "week": 1.459066,
-        "tonight": 1.408275,
-        "le": 1.320347,
-        "les": 1.306771,
-    },
-}
+
+LOGREG_TOP_FEATURES = {'hackernews': {'com': 5.801167,
+                'org': 4.76056,
+                'article': 3.21432,
+                'hn': 3.112926,
+                'www': 2.962313,
+                'probably': 2.802742,
+                'github': 2.788735,
+                'point': 2.761451,
+                'people': 2.759692,
+                'google': 2.611358,
+                'doesn': 2.523546,
+                'yes': 2.407572,
+                'interesting': 2.353612,
+                'yeah': 2.348904,
+                'isn': 2.344044},
+ 'reddit': {'telegram': 3.014149,
+            'looking': 2.904652,
+            'help': 2.568728,
+            'overview': 2.475501,
+            'guys': 2.290458,
+            'num_words': 2.249691,
+            'girl': 2.189551,
+            'poll': 2.044982,
+            'reddit': 2.039501,
+            'dm': 2.032964,
+            'wondering': 2.003841,
+            'wanna': 1.876439,
+            'sub': 1.876273,
+            'reddit com': 1.853424,
+            'cum': 1.843836},
+ 'twitter': {'https': 14.157866,
+             'http': 6.082246,
+             'num_mentions': 2.765396,
+             'la': 2.271574,
+             '00': 2.143079,
+             'que': 1.976868,
+             'el': 1.526586,
+             'today': 1.349722,
+             'week': 1.272876,
+             'le': 1.221238,
+             'tonight': 1.178061,
+             'في': 1.171919,
+             'les': 1.168812,
+             'おはようございます': 1.160835,
+             'et': 1.142039}}
 
 XGB_TOP_DIMENSIONS = [
     {"dimension": 250, "importance": 0.062896},
@@ -117,38 +117,237 @@ XGB_DIMENSION_SUMMARIES = {
     223: "This dimension is harder to summarize cleanly, which is a useful reminder that some latent embedding coordinates help XGBoost without mapping to one simple human label.",
 }
 
-XGB_DIMENSION_EXAMPLES = [
-    {"dimension": 250, "direction": "highest", "value": 0.268829, "platform": "reddit", "text_preview": 'Instagram: "$: The Vultures Experience. RUN UP MY POST. @rory_mitch203 None'},
-    {"dimension": 250, "direction": "highest", "value": 0.258527, "platform": "twitter", "text_preview": "@DKlarations @davewolfusa @TheFavoritist @NASASpaceflight @ChrisG_NSF and to the AWESOME editor who pulled the video together!"},
-    {"dimension": 250, "direction": "highest", "value": 0.251255, "platform": "twitter", "text_preview": "Looking forward to the match @SUFC_tweets tonight with our guests from #littlehelper"},
-    {"dimension": 250, "direction": "lowest", "value": -0.252174, "platform": "reddit", "text_preview": "Why are there so many boulders in certain places I don't understand why some mountains or other hilly areas will have excessive amounts of boulders but others won't."},
-    {"dimension": 250, "direction": "lowest", "value": -0.242158, "platform": "hackernews", "text_preview": "The demand side became pretty proficient regarding load shedding as well, making literally millions off of it."},
-    {"dimension": 250, "direction": "lowest", "value": -0.240736, "platform": "hackernews", "text_preview": "In the Boston area many of the nearby towns are what I call urban suburbs. Very family friendly, many single- or two-family homes, but also very walkable."},
-    {"dimension": 11, "direction": "highest", "value": 0.264749, "platform": "hackernews", "text_preview": "Yep if you want to make it more attractive don't break the browser for anyone trying to read your blog. Page Up/Down did nothing."},
-    {"dimension": 11, "direction": "highest", "value": 0.236429, "platform": "hackernews", "text_preview": "The market for used pre-2010 physical books will be huge. Personally I've stopped buying online books because of this kind of shenanigans."},
-    {"dimension": 11, "direction": "highest", "value": 0.234883, "platform": "hackernews", "text_preview": "If anyone's using Firefox it'll mess with everyone's performance. They're working on it, should be okay in the next month or so."},
-    {"dimension": 11, "direction": "lowest", "value": -0.240438, "platform": "reddit", "text_preview": "I Made Myself Sound Like A Darkin (Rhaast's Race) None"},
-    {"dimension": 11, "direction": "lowest", "value": -0.236251, "platform": "reddit", "text_preview": "(Kik: UsernameDotCom69) Who's ready to fall in love with a Kpop idol? | catfish None"},
-    {"dimension": 11, "direction": "lowest", "value": -0.232689, "platform": "reddit", "text_preview": "[EUW] Tier II jungler looking for a team to join. My preferred role is jungle, I can also play toplane and support if need be."},
-    {"dimension": 176, "direction": "highest", "value": 0.303086, "platform": "hackernews", "text_preview": "From talking to Anton, it seems like GitHub integration is next up on the TODO list. Any feedback on whether you'd find that useful would be appreciated."},
-    {"dimension": 176, "direction": "highest", "value": 0.270384, "platform": "twitter", "text_preview": "@ericamou signing copies for subscribers, pre-orders and website orders https://t.co/oGscNQaUTf"},
-    {"dimension": 176, "direction": "highest", "value": 0.260175, "platform": "twitter", "text_preview": "His Excellency President @CyrilRamaphosa arriving to receive #LettersofCredence from Heads of Mission-Designate #BetterAfricaBetterWorld."},
-    {"dimension": 176, "direction": "lowest", "value": -0.250758, "platform": "reddit", "text_preview": "Question about clear times. I've noticed that quite a lot of you, when comparing the power of weapons, talk about clear times."},
-    {"dimension": 176, "direction": "lowest", "value": -0.248330, "platform": "reddit", "text_preview": "PVP - Is just me or this skills are broken? First of all, I'm a noob in terms on pvp, but many deaths came from the same skills."},
-    {"dimension": 176, "direction": "lowest", "value": -0.237194, "platform": "reddit", "text_preview": "Can you handle it? None"},
-    {"dimension": 224, "direction": "highest", "value": 0.218133, "platform": "reddit", "text_preview": "HELP: Rega Elicit MK5 + KEF R3 Meta. I'm looking to buy an integrated amp to be paired with my KEF R3 Meta Speakers."},
-    {"dimension": 224, "direction": "highest", "value": 0.208572, "platform": "reddit", "text_preview": "Laundry. I'm almost out of clean clothes, where/can I do laundry in the dorm? I'm a freshman in Carlyle."},
-    {"dimension": 224, "direction": "highest", "value": 0.207315, "platform": "twitter", "text_preview": "@ohnahji Getting my school outfit ready!"},
-    {"dimension": 224, "direction": "lowest", "value": -0.249706, "platform": "hackernews", "text_preview": "Looks like the objectivists downvoted you. Such is the nature of Hacker News!"},
-    {"dimension": 224, "direction": "lowest", "value": -0.237909, "platform": "hackernews", "text_preview": "Heck, most people on Hacker News don't even have an actual business. The subject matter of the post drove businesses with real money to our site."},
-    {"dimension": 224, "direction": "lowest", "value": -0.230471, "platform": "hackernews", "text_preview": "It's a classic example of someone who hasn't had to deal with hard statistics thinking that just drawing a trendline is all that statistics is."},
-    {"dimension": 223, "direction": "highest", "value": 1.814682e-32, "platform": "hackernews", "text_preview": "wow cool!!!!!!!!!!!!!!!!!!!!!!! :0"},
-    {"dimension": 223, "direction": "highest", "value": 1.483488e-32, "platform": "reddit", "text_preview": "Economic Political Compass. I've seen a bunch of posts on this sub quibbling about definitions so I thought I might try my hand at a solution."},
-    {"dimension": 223, "direction": "highest", "value": 1.092257e-32, "platform": "twitter", "text_preview": "wow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"},
-    {"dimension": 223, "direction": "lowest", "value": -3.796831e-32, "platform": "twitter", "text_preview": "@RHGSIG @karina_filusch @computerspinnt @ICS_AG @netalexx @dani_stoffers @SuVuK @der_fisch001 @SteveJRitter @linuxkumpel"},
-    {"dimension": 223, "direction": "lowest", "value": -3.636443e-32, "platform": "twitter", "text_preview": "@Mieke35735862 @MriaHajzer @lizBeth_Hineni @Gianlui91580067 @Tzipor336 @Ruthtgn69 @TruthWins4ever @LehiRed"},
-    {"dimension": 223, "direction": "lowest", "value": -3.425661e-32, "platform": "twitter", "text_preview": "@AndiFrankfurt @wfritz56 @PStter @mabagus @Don_Slivovic @alex13wetter @C7_black @Nic2012 @TscheijPieh"},
-]
+XGB_DIMENSION_EXAMPLES = [{'dimension': 250,
+  'direction': 'highest',
+  'value': 0.268829,
+  'platform': 'reddit',
+  'text_preview': 'Instagram: "¥$: The Vultures Experience. RUN UP MY POST. @rory_mitch203 None'},
+ {'dimension': 250,
+  'direction': 'highest',
+  'value': 0.258527,
+  'platform': 'twitter',
+  'text_preview': '@DKlarations @davewolfusa @TheFavoritist @NASASpaceflight @ChrisG_NSF and to the AWESOME editor who '
+                  'pulled the video together!'},
+ {'dimension': 250,
+  'direction': 'highest',
+  'value': 0.251255,
+  'platform': 'twitter',
+  'text_preview': 'Looking forward to the match @SUFC_tweets tonight with our guests from #littlehelper'},
+ {'dimension': 250,
+  'direction': 'lowest',
+  'value': -0.252174,
+  'platform': 'reddit',
+  'text_preview': 'Why are there so many boulders in certain places I don’t understand why some mountains or other '
+                  'hilly areas will have excessive amounts of boulders but others won’t, in some places it seems like '
+                  'it’s an entire hill is made up of boulders. I would love to know why this is'},
+ {'dimension': 250,
+  'direction': 'lowest',
+  'value': -0.242158,
+  'platform': 'hackernews',
+  'text_preview': 'The demand side became pretty proficient regarding load shedding as well, making literally millions '
+                  'off of it.'},
+ {'dimension': 250,
+  'direction': 'lowest',
+  'value': -0.240736,
+  'platform': 'hackernews',
+  'text_preview': 'In the Boston area many of the nearby towns are what I call "urban suburbs". Very family friendly, '
+                  "many single- or two-family homes, but also very walkable and many shops throughout the town. I'm "
+                  'talking about towns such as Brookline, Cambridge and Arlington. They are really nice towns to live '
+                  'in and in very high demand.'},
+ {'dimension': 11,
+  'direction': 'highest',
+  'value': 0.264749,
+  'platform': 'hackernews',
+  'text_preview': "Yep if you want to make it more attractive don't break the browser for anyone trying to read your "
+                  "blog. Page Up/Down did nothing, there was no indication on how to navigate this page. I didn't read "
+                  'it.'},
+ {'dimension': 11,
+  'direction': 'highest',
+  'value': 0.236429,
+  'platform': 'hackernews',
+  'text_preview': "The market for used pre-2010 physical books will be huge. Personally I've stopped buying online "
+                  'books because of this kind of shenanigans and reverting back to having local music and movies for '
+                  "similar reasons. The idea that some remote working technocrats can change words of a book while I'm "
+                  'reading it just creeps me out.'},
+ {'dimension': 11,
+  'direction': 'highest',
+  'value': 0.234883,
+  'platform': 'hackernews',
+  'text_preview': "If anyone's using Firefox it'll mess with everyone's performance. They're working on it, should be "
+                  'okay in the next month or so.'},
+ {'dimension': 11,
+  'direction': 'lowest',
+  'value': -0.240438,
+  'platform': 'reddit',
+  'text_preview': "I Made Myself Sound Like A Darkin ( Rhaast's Race ) None"},
+ {'dimension': 11,
+  'direction': 'lowest',
+  'value': -0.236251,
+  'platform': 'reddit',
+  'text_preview': '(Kik: UsernameDotCom69) Who’s ready to fall in love with a Kpop idol? | catfish None'},
+ {'dimension': 11,
+  'direction': 'lowest',
+  'value': -0.232689,
+  'platform': 'reddit',
+  'text_preview': '[EUW] Tier II jungler looking for a team to join My preferred role is jungle, I can still also play '
+                  'toplane and support if need be ( I can be a flexpick) my jungle mains are: Nunu, Skarner, Rammus '
+                  'and Warwick. \u200b My summoner name is: Witlof Man \u200b I dont flame and Im pretty chill '
+                  'overall'},
+ {'dimension': 176,
+  'direction': 'highest',
+  'value': 0.303086,
+  'platform': 'hackernews',
+  'text_preview': 'From talking to Anton, it seems like GitHub integration is next up on the TODO list. Any feedback '
+                  "on whether you'd find that useful and how you think it should be done would be really appreciated."},
+ {'dimension': 176,
+  'direction': 'highest',
+  'value': 0.270384,
+  'platform': 'twitter',
+  'text_preview': '@ericamou signing copies for subscribers, pre-orders and website orders❤️ https://t.co/oGscNQaUTf'},
+ {'dimension': 176,
+  'direction': 'highest',
+  'value': 0.260175,
+  'platform': 'twitter',
+  'text_preview': 'His Excellency President @CyrilRamaphosa arriving at the Sefako Makgatho Presidential Guesthouse in '
+                  'Tshwane to receive #LettersofCredence from Heads of Mission-Designate #BetterAfricaBetterWorld 🌍 '
+                  'https://t.co/mU83iyzFgv'},
+ {'dimension': 176,
+  'direction': 'lowest',
+  'value': -0.250758,
+  'platform': 'reddit',
+  'text_preview': "Question about clear times Hey Hunters! I've noticed that quite a lot of you, when comparing the "
+                  'power of weapons, talk about clear times. Specifically how long it takes you to hunt down and '
+                  'kill/capture a large monster. I\'ve seen a lot of talk saying that "in order to get comparable '
+                  'clear times...don\'t use X weapon or use X weapon and armor sets". I saw earlier about someone in G '
+                  'Rank complaining that they felt their weapon was under powered because they killed at G Rank '
+                  'monster in around 8 mins compared to the 4 mins it takes them with a different weapon. Why are '
+                  "shorter times, to the point of absurdity, the standard? Shouldn't we be more interested in having "
+                  "good hunts and fun fights? Maybe it's because I'm High Rank and I'm still finding new and tougher "
+                  "fights but I just don't see the point that of hunting something and killing it in under the amount "
+                  "of time that it takes to warm up a hot pocket. Just doesn't sound fun to me"},
+ {'dimension': 176,
+  'direction': 'lowest',
+  'value': -0.24833,
+  'platform': 'reddit',
+  'text_preview': "PVP - Is just me or this skills are broken? First of all, i'm a noob in terms on pvp, i'm just "
+                  'starting with it, but i noticed that many of my deaths came always from the same 2 skills: overload '
+                  'light attacks and cristalshards. They are hitting beetwen 10-18k, ranged attacks that can almost '
+                  "one-shoot me (i'm around 20-21k hp) without much i can do dosn't seems like a proper mechanic. I "
+                  'heard that bows don\'t do that much damage to reward meele combat that is more "risky", but with '
+                  "this things one-shooting people at range, that argument don't have too much sense."},
+ {'dimension': 176,
+  'direction': 'lowest',
+  'value': -0.237194,
+  'platform': 'reddit',
+  'text_preview': 'Can you handle it? None'},
+ {'dimension': 224,
+  'direction': 'highest',
+  'value': 0.218133,
+  'platform': 'reddit',
+  'text_preview': 'HELP: Rega Elicit MK5 + KEF R3 Meta Hello, how are you? I’m looking to buy an integrated amp to be '
+                  'paired with my KEF R3 Meta Speakers. I really like the Rega Elicit MK5, but since the speakers are '
+                  '4 ohm, I’m weary of the warning that comes in the amp’s user manual: “intended for use with 4-16 '
+                  'ohm speakers. Sustained used into speakers of less than 8 ohm could make the unit run warmer than '
+                  'normal”. Any advice on how this pairing would work in the long run? I never listen for extended '
+                  'periods of time and never blast full volume. Option B for me would be the Yamaha AS-1200 for the '
+                  'KEF. Thanks in advance!'},
+ {'dimension': 224,
+  'direction': 'highest',
+  'value': 0.208572,
+  'platform': 'reddit',
+  'text_preview': 'Laundry I’m almost out of clean clothes, where/can I do laundry in the dorm? I’m a freshman in '
+                  'Carlyle.'},
+ {'dimension': 224,
+  'direction': 'highest',
+  'value': 0.207315,
+  'platform': 'twitter',
+  'text_preview': '@ohnahji Getting my school outfit ready!'},
+ {'dimension': 224,
+  'direction': 'lowest',
+  'value': -0.249706,
+  'platform': 'hackernews',
+  'text_preview': 'Looks like the objectivists downvoted you. Such is the nature of Hacker News!'},
+ {'dimension': 224,
+  'direction': 'lowest',
+  'value': -0.237909,
+  'platform': 'hackernews',
+  'text_preview': '>...Heck, most people on Hackers News don’t even have an actual business. >The subject matter of '
+                  'the post drove businesses with real money to our site. ...from Hacker News? Anyone else find this '
+                  'rather contradictory?'},
+ {'dimension': 224,
+  'direction': 'lowest',
+  'value': -0.230471,
+  'platform': 'hackernews',
+  'text_preview': 'It\'s a classic example of someone who hasn\'t had to deal with "hard" statistics thinking that '
+                  'just drawing a trendline (and dismissing biases out-of-hand) is all that statistics is. The author '
+                  'is right that Chrome has a massive share, but everyone knows that. Any analysis more specific than '
+                  'that requires more than just overplotting exponentials on a graph.'},
+ {'dimension': 223,
+  'direction': 'highest',
+  'value': 1.814682e-32,
+  'platform': 'hackernews',
+  'text_preview': 'wow cool!!!!!!!!!!!!!!!!!!!!!!! :0'},
+ {'dimension': 223,
+  'direction': 'highest',
+  'value': 1.483488e-32,
+  'platform': 'reddit',
+  'text_preview': "Economic Political Compass So I've seen a bunch of posts on this sub quibbling about definitions so "
+                  'I thought I might try my hand at a solution: Using an Economic Compass that deals with who owns the '
+                  'economy or the means of production\\*. The format for this compass only works on PC. Sorry. '
+                  '(Clarification and examples at the bottom) '
+                  '........................**Authoritarian**........................ '
+                  '...................................||................................... '
+                  '...................................||................................... '
+                  '**Planned\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_||\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\\_Market** '
+                  '...................................||.................................. '
+                  '...................................||.................................. '
+                  '..........................**Democratic**.......................... \\*These definitions can be '
+                  'separate from the government organization in market economies. **My opinion, and therefore fact for '
+                  'what falls in each zone:** Authoritarian/Market: United States, Russia Pre-Ukraine invasion. This '
+                  'is Traditional Capitalism, where companies sell and buy resources and are either controlled by a '
+                  'boss, board, or non-employee stockholders. Authoritarian/Planned: Soviet Union, Pre-Colombian Inca, '
+                  'Maoist China. Sometimes called democratic centralism, this economic structure seeing an autocrat or '
+                  'an unelected party control the means of production according to multiyear plans. '
+                  "Democratic/Planned: UK's NHS, Cuba. These examples are a bit of stretch, as there aren't really "
+                  'many good examples a purely planned economy coexisting with a democratic government. Cuba is '
+                  'probably the best example of this model as most of its industries are nationalized and there is '
+                  'democratic involvement in the government (although there are limits on press & political freedom). '
+                  "Democratic/Market: Worker Coops, Tito's Yugoslavia, Hunter Gatherer Societies. This organizational "
+                  'structure sees workers in control of their means of production to buy and sell what they produce. '
+                  'This can exist through democratic control of businesses or individual production. Sorry for the '
+                  "horrible quality of the compass, this sub won't let me post pictures and it formats wrong with "
+                  'spaces, if anyone can post it more competently please do it.'},
+ {'dimension': 223,
+  'direction': 'highest',
+  'value': 1.092257e-32,
+  'platform': 'twitter',
+  'text_preview': 'wow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'},
+ {'dimension': 223,
+  'direction': 'lowest',
+  'value': -3.796831e-32,
+  'platform': 'twitter',
+  'text_preview': '@RHGSIG @karina_filusch @computerspinnt @ICS_AG @netalexx @dani_stoffers @SuVuK @der_fisch001 '
+                  '@SteveJRitter @linuxkumpel @ASYSinghuber @Cultcoders @guidodeckstein @ArneBrandneu @aixzellent Die '
+                  'gibt es bestimmt in der nächsten Ausgabe des @informatikradar Magazins 😎'},
+ {'dimension': 223,
+  'direction': 'lowest',
+  'value': -3.636443e-32,
+  'platform': 'twitter',
+  'text_preview': '@Mieke35735862 @MriaHajzer @lizBeth_Hineni @Gianlui91580067 @Tzipor336 @Ruthtgn69 @TruthWins4ever '
+                  '@LehiRed @james_anderssen @esp_anet @cemoimonica @zeque66 @NYCREMilton @shlomomeirisra3 @YaelSed1 '
+                  '@Helenhun20 @JankeHansenM @AlanZionist @reilluminati @LaurentTS56 @Esther28007 @Nelby37482058 '
+                  '@adelioalves3 @olgatorres540 @Wp7xtPXs0EaLPTn @Smalou1 @EvaDuranRamos @HeatherPlonski1 @coinabs '
+                  '@LenGrunstein @DSDloveyou Trust and stay positive Dear Mieke⚘️ Know that All things are possible '
+                  "when you believe 🌴💚 what your think in your mind tells you what will come. G'D's Shalom🕊 be with "
+                  'you 🙏☘️💛🕊 https://t.co/fmsG11kkQu'},
+ {'dimension': 223,
+  'direction': 'lowest',
+  'value': -3.425661e-32,
+  'platform': 'twitter',
+  'text_preview': '@AndiFrankfurt @wfritz56 @PStter @mabagus @Don_Slivovic @alex13wetter @C7_black @Nic2012 '
+                  '@TscheijPieh @DerVatta_ @EintrachtEmma @RealdealOk @whatsnexteu @23oliver01 @AsiFinanz Traust du '
+                  'dich nicht'}]
+
 
 
 def read_json(path: Path) -> dict:
@@ -156,6 +355,12 @@ def read_json(path: Path) -> dict:
         return {}
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def read_csv_or_empty(path: Path, columns: list[str]) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame(columns=columns)
+    return pd.read_csv(path)
 
 
 def load_project_data() -> pd.DataFrame:
@@ -206,56 +411,58 @@ def add_text_stats(df: pd.DataFrame) -> pd.DataFrame:
 
 def build_model_metrics() -> tuple[pd.DataFrame, pd.DataFrame]:
     logreg = read_json(LOGREG_OUTPUT_DIR / "logreg_metrics.json")
+    xgb = read_json(XGB_METRICS_PATH)
     nn = read_json(NN_OUTPUT_DIR / "nn_embedding_metrics.json")
 
     rows = [
         {
             "model": "Logistic Regression",
             "feature_set": "TF-IDF 1-2 grams + text statistics",
-            "validation_accuracy": logreg.get("validation_accuracy", 0.8803475787274707),
-            "test_accuracy": logreg.get("test_accuracy", 0.8821503177919019),
-            "macro_f1": logreg.get("macro_f1", 0.8832093588566372),
+            "validation_accuracy": logreg.get("validation_accuracy", 0.8763028646354202),
+            "test_accuracy": logreg.get("test_accuracy", 0.8788835059335971),
+            "macro_f1": logreg.get("macro_f1", 0.8800108619954073),
             "interpretation": "Best for explanation: coefficients show which words and style markers pushed each platform prediction.",
         },
         {
             "model": "XGBoost",
             "feature_set": "MiniLM sentence embeddings",
-            "validation_accuracy": 0.8897704291397204,
-            "test_accuracy": 0.891684074847771,
-            "macro_f1": 0.89,
+            "validation_accuracy": xgb.get("validation_accuracy", 0.8897704291397204),
+            "test_accuracy": xgb.get("test_accuracy", 0.891684074847771),
+            "macro_f1": xgb.get("macro_f1", 0.8916222041254639),
             "interpretation": "Adds semantic embeddings and improves over the baseline, but its embedding dimensions are harder to interpret directly.",
         },
         {
             "model": "Neural Network",
             "feature_set": "MiniLM embeddings + text statistics",
-            "validation_accuracy": nn.get("validation_accuracy", 0.940951618996822),
-            "test_accuracy": nn.get("test_accuracy", 0.9414862882794791),
+            "validation_accuracy": nn.get("validation_accuracy", 0.9425072782629953),
+            "test_accuracy": nn.get("test_accuracy", 0.9429530201342282),
             "macro_f1": 0.94,
             "interpretation": "Best final model: compact neural network with dropout and early stopping captured both semantic and style signals.",
         },
     ]
 
     per_class_rows = []
-    logreg_report = logreg.get("classification_report", {})
-    for platform in PLATFORMS:
-        report = logreg_report.get(platform, {})
-        per_class_rows.append(
-            {
-                "model": "Logistic Regression",
-                "platform": platform,
-                "precision": report.get("precision", 0.0),
-                "recall": report.get("recall", 0.0),
-                "f1_score": report.get("f1-score", 0.0),
-            }
-        )
+    report_sources = {
+        "Logistic Regression": logreg.get("classification_report", {}),
+        "XGBoost": xgb.get("classification_report", {}),
+    }
+    for model_name, report_source in report_sources.items():
+        for platform in PLATFORMS:
+            report = report_source.get(platform, {})
+            per_class_rows.append(
+                {
+                    "model": model_name,
+                    "platform": platform,
+                    "precision": report.get("precision", 0.0),
+                    "recall": report.get("recall", 0.0),
+                    "f1_score": report.get("f1-score", 0.0),
+                }
+            )
 
     per_class_rows.extend(
         [
-            {"model": "XGBoost", "platform": "hackernews", "precision": 0.87, "recall": 0.93, "f1_score": 0.90},
-            {"model": "XGBoost", "platform": "reddit", "precision": 0.89, "recall": 0.87, "f1_score": 0.88},
-            {"model": "XGBoost", "platform": "twitter", "precision": 0.91, "recall": 0.89, "f1_score": 0.90},
-            {"model": "Neural Network", "platform": "hackernews", "precision": 0.92, "recall": 0.96, "f1_score": 0.94},
-            {"model": "Neural Network", "platform": "reddit", "precision": 0.94, "recall": 0.93, "f1_score": 0.94},
+            {"model": "Neural Network", "platform": "hackernews", "precision": 0.92, "recall": 0.95, "f1_score": 0.94},
+            {"model": "Neural Network", "platform": "reddit", "precision": 0.94, "recall": 0.94, "f1_score": 0.94},
             {"model": "Neural Network", "platform": "twitter", "precision": 0.96, "recall": 0.94, "f1_score": 0.95},
         ]
     )
@@ -263,19 +470,28 @@ def build_model_metrics() -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def feature_table() -> pd.DataFrame:
-    rows = []
-    for platform, features in LOGREG_TOP_FEATURES.items():
-        for feature, coefficient in features.items():
-            rows.append({"platform": platform, "feature": feature, "coefficient": coefficient})
-    return pd.DataFrame(rows)
+    df = read_csv_or_empty(LOGREG_TOP_FEATURES_PATH, ["platform", "rank", "feature", "weight"])
+    if df.empty:
+        rows = []
+        for platform, features in LOGREG_TOP_FEATURES.items():
+            for feature, coefficient in features.items():
+                rows.append({"platform": platform, "feature": feature, "coefficient": coefficient})
+        return pd.DataFrame(rows)
+    return df.rename(columns={"weight": "coefficient"})
 
 
 def xgb_dimension_table() -> pd.DataFrame:
-    return pd.DataFrame(XGB_TOP_DIMENSIONS)
+    df = read_csv_or_empty(XGB_TOP_DIMENSIONS_PATH, ["embedding_dim", "importance"])
+    if df.empty:
+        return pd.DataFrame(XGB_TOP_DIMENSIONS)
+    return df.rename(columns={"embedding_dim": "dimension"})
 
 
 def xgb_example_table() -> pd.DataFrame:
-    return pd.DataFrame(XGB_DIMENSION_EXAMPLES)
+    df = read_csv_or_empty(XGB_DIMENSION_EXAMPLES_PATH, ["dimension", "direction", "value", "platform", "text_example"])
+    if df.empty:
+        return pd.DataFrame(XGB_DIMENSION_EXAMPLES)
+    return df.rename(columns={"text_example": "text_preview"})
 
 
 DATA_DF = load_project_data()
@@ -765,6 +981,8 @@ def eda_tab() -> html.Div:
 
 
 def modeling_tab() -> html.Div:
+    logreg_val = METRICS_DF.loc[METRICS_DF["model"] == "Logistic Regression", "validation_accuracy"].iloc[0]
+    nn_best_epoch = read_json(NN_OUTPUT_DIR / "nn_embedding_metrics.json").get("best_epoch", 11)
     return html.Div(
         [
             html.Section(
@@ -849,8 +1067,8 @@ def modeling_tab() -> html.Div:
                         className="two-col",
                     ),
                     html.Div(
-                        "For logistic regression, the engineered text statistics lifted validation accuracy from 0.827 with TF-IDF alone to 0.880 with TF-IDF plus text stats. "
-                        "For our other models, MiniLM embeddings added semantic signal, and the neural network ended up reaching the best test accuracy after early stopping at epoch 8.",
+                        f"For logistic regression, the engineered text statistics lifted validation accuracy from 0.827 with TF-IDF alone to {logreg_val:.3f} with TF-IDF plus text stats. "
+                        f"For our other models, MiniLM embeddings added semantic signal, and the neural network ended up reaching the best test accuracy after early stopping at epoch {nn_best_epoch}.",
                         className="callout",
                     ),
                     html.Div(
@@ -942,4 +1160,4 @@ def features_tab() -> html.Div:
 if __name__ == "__main__":
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
     app = build_app()
-    app.run(debug=False, port=8050)
+    app.run(debug=False, port=8040)
